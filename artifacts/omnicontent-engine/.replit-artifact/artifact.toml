@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "OmniContent Engine"
+version = "1.0.0"
+id = "artifacts/omnicontent-engine"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21087
+
+[services.development]
+run = "pnpm --filter @workspace/omnicontent-engine run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/omnicontent-engine", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/omnicontent-engine/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21087"
+BASE_PATH = "/"
